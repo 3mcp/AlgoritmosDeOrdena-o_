@@ -1,3 +1,10 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
 public class Main {
     private static final String RESET = "\u001B[0m";
     private static final String GREEN = "\u001B[32m";
@@ -35,20 +42,19 @@ public class Main {
             String inputFilePath = inputFiles[i];
             String outputFilePath = outputFiles[i];
 
-            // Lê os dados do arquivo CSV
             int[] valores = Sort.loadNumbers(inputFilePath);
 
-            // Escolha o método de ordenação desejado e descomente a linha correspondente
             long startTime = System.nanoTime();
 
-            // Sort.bubbleSort(valores);
-            // Sort.insertionSort(valores);
-            Sort.quickSort(valores, 0, valores.length - 1);
+            //Sort.bubbleSort(valores);
+            Sort.insertionSort(valores);
+            //Sort.quickSort(valores, 0, valores.length - 1);
 
             long endTime = System.nanoTime();
-            System.out.println(PURPLE + "\nTempo de execução para " + RESET + inputFilePath + ": " + (endTime - startTime) / 1_000_000.0 + " ms");
 
-            // Escreve os dados ordenados no arquivo de saída correspondente
+            long elapsedTime = endTime - startTime;
+            System.out.printf(PURPLE + "\nTempo de execução para %s: " + RESET + "%,d ns%n", inputFilePath, elapsedTime);
+
             Sort.saveNumbersInCSVFile(outputFilePath, valores);
             System.out.println(BLUE + "\nOrdenação concluída para: " + RESET + inputFilePath + GREEN + "\n" + "salva em: " + RESET + outputFilePath + "\n");
         }
